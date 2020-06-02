@@ -1,0 +1,95 @@
+--1
+SELECT title
+    FROM movies
+    WHERE year = 2008;
+
+--2
+SELECT birth
+    FROM people
+    WHERE name = "Emma Stone";
+
+--3
+SELECT title
+    FROM movies
+    WHERE year >= 2018
+    ORDER BY title ASC;
+
+--4
+SELECT count() AS 'Number of Movies rated 10.0'
+    FROM ratings
+    WHERE rating = 10.0;
+
+--5
+SELECT title, year
+    FROM movies
+    WHERE lower(title) LIKE 'harry potter%'
+    ORDER BY year ASC;
+
+--6
+SELECT AVG(r.rating) AS 'Average Rating'
+    FROM movies m
+    JOIN ratings r ON m.id = r.movie_id
+    WHERE year = 2012;
+
+--7
+SELECT m.title, r.rating
+    FROM movies m
+    JOIN ratings r ON m.id = r.movie_id
+    WHERE m.year = 2010
+    ORDER BY r.rating DESC, m.title ASC;
+
+--8
+SELECT p.name
+    FROM people p
+    JOIN stars s on p.id = s.person_id
+    JOIN movies m on m.id = s.movie_id
+    WHERE lower(title) = 'toy story';
+
+--9
+SELECT p.name
+    FROM people p
+    JOIN stars s on p.id = s.person_id
+    JOIN movies m on m.id = s.movie_id
+    WHERE m.year = 2004
+    GROUP BY p.name
+    ORDER BY p.birth;
+
+--10
+SELECT DISTINCT p.name
+    FROM people p
+    JOIN directors d ON d.person_id = p.id
+    JOIN ratings r ON r.movie_id = d.movie_id
+    WHERE rating >= 9.0;
+
+--11
+SELECT m.title
+    FROM movies m
+    JOIN stars s ON m.id = s.movie_id
+    JOIN people p ON p.id = s.person_id
+    JOIN ratings r ON r.movie_id = m.id
+    WHERE p.name = 'Chadwick Boseman'
+    ORDER BY r.rating DESC
+    LIMIT 5;
+
+--12
+SELECT m.title
+    FROM movies m
+    JOIN stars s ON m.id = s.movie_id
+    JOIN people p ON p.id = s.person_id
+    WHERE p.name ='Johnny Depp'
+    AND m.id IN (SELECT m.id
+                    FROM movies m
+                    JOIN stars s ON m.id = s.movie_id
+                    JOIN people p ON p.id = s.person_id
+                    WHERE p.name = 'Helena Bonham Carter');
+
+--13
+SELECT DISTINCT p.name
+    FROM people p
+    JOIN stars s ON p.id = s.person_id
+    WHERE s.movie_id IN (SELECT m.id
+                            FROM movies m
+                            JOIN stars s ON m.id = s.movie_id
+                            JOIN people p ON p.id = s.person_id
+                            WHERE p.name = 'Kevin Bacon' AND p.birth = 1958)
+    AND p.name <> 'Kevin Bacon';
