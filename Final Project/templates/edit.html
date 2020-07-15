@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block header %}
+    Podcast Network
+{% endblock %}
+
+{% block slogan %}
+    Edit your account
+{% endblock %}
+
+
+{% block main %}
+    <div class="input-group mb-3">
+        <form action="/edit" method="post">
+            <input type="hidden" value="submit" name="submit" id="submit">
+            <label  style="margin-right:50px;" for="title">Title</label>
+            <input id="title" name="title" type="text" value="{{user[0]['title']}}"><br>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" cols="50">{{ user[0]['description'] }}</textarea><br>
+            <button id="submit" name="submit" type="submit">Submit</button>
+        </form>
+
+        <form id="passwordform" action="/edit" method="post">
+            <input type="hidden" value="change" name="change" id="change">
+            <label  style="margin-right:10px;" for="oldpassword">Old Password</label>
+            <input id="oldpassword" name="oldpassword" type="text"><br>
+            <label  style="margin-right:4px;" for="newpassword">New Password</label>
+            <input id="newpassword" name="newpassword" type="text"><br>
+            <label  style="margin-right:14px;" for="confirmation">Confirmation</label>
+            <input id="confirmation" name="confirmation" type="text"><br>
+            <button id="change" name="change" type="submit">Change Password</button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
